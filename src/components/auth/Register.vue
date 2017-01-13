@@ -30,16 +30,11 @@
     },
     methods: {
       register(){
-        this.$http.post('http://localhost:9090/users', this.user)
+        this.$http.post('/users', this.user)
                 .then(() => {
                   alertify.success('You can now login with your email and password');
                   this.$router.push('/auth/login');
-                })
-                .catch((res) => {
-                  if (res.status == 422){
-                    res.body.errors.forEach((e) => alertify.error(e)
-                  )}
-                })
+          })
       }
     }
   }
