@@ -1,19 +1,29 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Hello from './components/Hello'
-import Hello2 from './components/Hello2'
+import Auth from './components/auth/Auth'
+import Login from './components/auth/Login'
+import Register from './components/auth/Register'
+
 
 Vue.use(VueRouter);
 
-var router = new VueRouter({
+const router = new VueRouter({
+  mode: 'history',
   routes: [
     {
-      path: '/one',
-      component: Hello
-    },
-    {
-      path: '/two',
-      component: Hello2
+      path: '/auth',
+      component: Auth,
+      redirect: '/auth/login',
+      children: [
+        {
+          path: 'login',
+          component: Login
+        },
+        {
+          path: 'register',
+          component: Register
+        }
+      ]
     }
   ]
 })
