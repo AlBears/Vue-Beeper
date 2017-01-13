@@ -6,5 +6,5 @@
 
 </script>
 
-<style>
+<style src="./assets/beeper.css">
 </style>
