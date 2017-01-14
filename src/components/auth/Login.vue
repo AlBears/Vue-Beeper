@@ -29,7 +29,8 @@
       login(){
         this.$http.post('/auth', this.user)
                     .then((res) => {
-
+                      this.$auth.setToken(res.body.token, Date.now() + 14400000 );
+                      this.$router.push('/newsfeed');
                     })
 
       }

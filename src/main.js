@@ -4,11 +4,15 @@ import Vue from 'vue'
 import App from './App'
 import Router from './routes'
 import VueResource from 'vue-resource'
+import Auth from './plugins/Auth'
 
 Vue.use(VueResource);
+Vue.use(Auth);
 
+/* Alertify position global */
 alertify.defaults.notifier.position = 'top-right';
 
+/* Set global URL with interceptors */
 Vue.http.interceptors.push((request, next) => {
   if (request.url[0] === '/') {
     request.url = `${process.env.API}${request.url}`;
@@ -20,7 +24,19 @@ Vue.http.interceptors.push((request, next) => {
   });
 });
 
-
+/* Configure route guards */
+Router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => {
+    return record.meta.requiresGuest
+  }) && Vue.auth.loggedIn())
+  {
+    next({
+      path: '/newsfeed'
+    });
+  } else {
+    next();
+  }
+});
 
 /* eslint-disable no-new */
 new Vue({
