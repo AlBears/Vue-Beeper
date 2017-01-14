@@ -37,6 +37,13 @@ Router.beforeEach((to, from, next) => {
     next({
       path: '/newsfeed'
     });
+  } else if (to.matched.some((record) => {
+    return record.meta.requiresAuth
+  }) && ! Vue.auth.loggedIn()){
+    next({
+      path: '/auth/login',
+      query: { redirect: to.fullPath }
+    });
   } else {
     next();
   }
