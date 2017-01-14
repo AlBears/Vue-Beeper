@@ -1,7 +1,5 @@
 <template lang="html">
-  <p>
-    Newsfeed
-  </p>
+  
 </template>
 
 <script>

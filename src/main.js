@@ -19,7 +19,7 @@ Vue.http.interceptors.push((request, next) => {
 
     let token = Vue.auth.getToken();
     if (token)
-      request.headers.set('Authorization', 'Bearer');
+      request.headers.set('Authorization', `Bearer ${token}`);
   }
   next((res) => {
     if (res.status == 422){
