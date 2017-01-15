@@ -40,6 +40,14 @@ export default {
       beepsLoading: false
     }
   },
+
+  watch: {
+    endpoint() {
+      this.beeps = [];
+      this.getBeeps();
+    }
+  },
+
   methods: {
     getBeeps(page) {
       this.beepsLoading = true;

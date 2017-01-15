@@ -26,6 +26,9 @@ export default {
       user: {}
     }
   },
+  watch: {
+    $route: 'getUser'
+  },
   methods: {
     getUser() {
       this.$http.get(`/users/${this.$route.params.username}`)
