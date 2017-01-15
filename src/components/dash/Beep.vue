@@ -38,7 +38,16 @@
         props: {beep:{}},
         methods: {
             likeBeep() {
-
+              this.$http.patch(`/beeps/${this.beep.id}/like`)
+                  .then((res) => {
+                    if (this.beep.liked) {
+                      this.beep.likes--;
+                      this.beep.liked = false;
+                    } else {
+                      this.beep.likes++;
+                      this.beep.liked = true;
+                    }
+                  })
             },
 
             beepDate(timestamp) {
