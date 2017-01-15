@@ -1,5 +1,6 @@
 <template>
     <div id="sidebar" class="text-center">
+      <div v-if="loggedIn">
         <h4 class="text-center">@{{ user.username }}</h4>
         <hr>
         <div class="row">
@@ -33,6 +34,15 @@
                 </p>
             </div>
         </div>
+      </div>
+      <div v-if="!loggedIn">
+            <h1>Welcome!</h1>
+            <p>Beeper is a microblogging social network, come join the fun!</p>
+            <p class="text-center">
+                <router-link to="/auth/register" class="btn btn-primary btn-block">Register</router-link><br>
+                <router-link to="/auth/login" class="btn btn-default btn-block">Login</router-link>
+            </p>
+      </div>
     </div>
 </template>
 
@@ -40,12 +50,14 @@
     export default {
         name: 'sidebar',
         created() {
+          if (this.loggedIn)
           this.getUser();
         },
         data(){
           return {
             user: {},
-            newBeep: ""
+            newBeep: "",
+            loggedIn: this.$auth.loggedIn()
           }
         },
         methods: {
