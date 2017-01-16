@@ -22,6 +22,19 @@ export default {
   name: 'dashboard',
   components: {
     sidebar: Sidebar
+  },
+  created() {
+    if (this.$auth.loggedIn()) {
+      this.$http.get('/users/me')
+            .then((res) => {
+              this.$store.commit('setCurrentUser', res.body);
+            })
+            .catch((res) => {
+              this.$store.commit('clearCurrentUser');
+            });
+    } else {
+      this.$store.commit('clearCurrentUser');
+    }
   }
 }
 </script>
