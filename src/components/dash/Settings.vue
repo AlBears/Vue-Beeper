@@ -5,7 +5,7 @@
             <div class="form-group valign">
                 <label class="col-sm-2 control-label">Avatar</label>
                 <div class="col-sm-10 text-center">
-                    <img :src="user.avatar" class="img-circle"><br>
+                    <img :src="image" class="img-circle"><br>
                     <div class="fileUpload btn btn-default">
                         <span>Select a file</span>
                         <input type="file" class="upload" @change="fileChanged" id="imageFile">
@@ -36,19 +36,43 @@
     export default {
         name: 'settings',
         data() {
-            return {
-                user: {}
-            }
+          return {
+            image: null
+          }
+        },
+        computed: {
+          user() {
+            return clone(this.$store.state.currentUser);
+          }
         },
         methods: {
             fileChanged(e) {
+              let reader = new FileReader();
+              reader.readAsDataURL(e.target.files[0]);
 
+              reader.onload = (e) => {
+                this.image = e.target.result
+              }
             },
             uploadAvatar() {
+              let formData = new FormData();
+              formData.append('avatar', document.getElementById('imageFile').files[0]);
 
+              this.$http.put('/users/me/avatar', formData)
+                    .then((res) => {
+                      this.user.avatar = res.body.avatar;
+                      this.$store.commit('setCurrentUser', this.user);
+                      this.image = null;
+
+                      alertify.success('Avatar updated!');
+                    })
             },
             updateSettings() {
-
+              this.$http.put('/users/me', this.user)
+                    .then((res) => {
+                      this.$store.commit('setCurrentUser', this.user);
+                      alertify.success("Settings updated!");
+                    })
             }
         }
     }
