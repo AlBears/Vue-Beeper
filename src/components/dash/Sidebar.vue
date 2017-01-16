@@ -67,6 +67,7 @@
           beep() {
             this.$http.post('/beeps', { text: this.newBeep })
                   .then((res) => {
+                    this.$root.$emit('newBeep', res.data);
                     this.newBeep = '';
                     alertify.success('Beep published');
                   })
